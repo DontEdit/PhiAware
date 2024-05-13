@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Aufklärung und Link-Tracker</title>
+</head>
+<body>
+    <h1>Willkommen zur Phishing Aufklärung und Link-Tracker Seite</h1>
+    <p>Phishing ist eine betrügerische Methode, bei der versucht wird, persönliche Informationen wie Passwörter, Kreditkartennummern usw. von ahnungslosen Benutzern zu stehlen. Bitte seien Sie vorsichtig und teilen Sie niemals persönliche Informationen über verdächtige Links.</p>
+    <h2>Erstellen Sie einen neuen Link:</h2>
+    <form action="/create_link" method="POST">
+        <label for="url">URL eingeben:</label><br>
+        <input type="text" id="url" name="url"><br><br>
+        <button type="submit">Link erstellen</button>
+    </form>
+    <h2>Verfügbare Links:</h2>
+    <ul>
+        {% for link in links %}
+            <li><a href="/click/{{ link.id }}/prof" target="_blank">{{ link.url }}</a> (Prof: {{ link.prof_clicks }}, WiMi: {{ link.wimi_clicks }}, Stud: {{ link.stud_clicks }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
