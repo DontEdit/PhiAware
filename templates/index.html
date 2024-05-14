@@ -3,22 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Aufklärung und Link-Tracker</title>
+    <title>Phishing Awareness</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+
+
 </head>
 <body>
-    <h1>Willkommen zur Phishing Aufklärung und Link-Tracker Seite</h1>
-    <p>Phishing ist eine betrügerische Methode, bei der versucht wird, persönliche Informationen wie Passwörter, Kreditkartennummern usw. von ahnungslosen Benutzern zu stehlen. Bitte seien Sie vorsichtig und teilen Sie niemals persönliche Informationen über verdächtige Links.</p>
-    <h2>Erstellen Sie einen neuen Link:</h2>
-    <form action="/create_link" method="POST">
-        <label for="url">URL eingeben:</label><br>
-        <input type="text" id="url" name="url"><br><br>
-        <button type="submit">Link erstellen</button>
-    </form>
-    <h2>Verfügbare Links:</h2>
-    <ul>
-        {% for link in links %}
-            <li><a href="/click/{{ link.id }}/prof" target="_blank">{{ link.url }}</a> (Prof: {{ link.prof_clicks }}, WiMi: {{ link.wimi_clicks }}, Stud: {{ link.stud_clicks }})</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Das war eine Phishing Mail!</h1>
+        <p>Wenn Sie diese Webseite sehen dann sind Sie Opfer von Phishing geworden.
+            Phishing ist der unrechtmäßige Versuch, an vertrauliche Informationen wie Benutzernamen, 
+            Kennwörter und Kreditkartendaten zu gelangen. Dabei gibt sich der Täter in einer E-Mail als vertrauenswürdige Person aus. Das Opfer wird
+            dazu verleitet, auf einen Link oder einen Anhang zu klicken und dabei persönliche Informationen preiszugeben oder schädliche Software
+            auf seinem Gerät zu installieren. Die Inhalte der E-Mail, die Sie erhalten haben, wurden von einer künstlichen Intelligenz generiert 
+            und basieren auf öffentlich im Internet verfügbaren Daten. 
+             <p>
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='image/Phisher.jpg') }}" alt="Phishing Awareness Image" width="600">
+        </div>
+        <h3>Hier sind einige Tipps, wie Sie sich vor Phishing-Angriffen schützen können:</h3>
+        <ul>
+            <li><b>Überprüfen Sie die URL:</b> Bevor Sie persönliche Informationen eingeben, überprüfen Sie die URL der Website. Oft sind Phishing-Websites leicht zu erkennen, da sie subtile Unterschiede in der URL haben können, wie z. B. Rechtschreibfehler oder zusätzliche Zeichen.</li>
+            <li><b>Achten Sie auf verdächtige E-Mails:</b> Seien Sie vorsichtig bei E-Mails, die Sie zur Eingabe persönlicher Informationen auffordern oder unerwartete Anhänge oder Links enthalten. Legitime Personen werden Sie niemals unaufgefordert nach vertraulichen Daten fragen.</li>
+            <li><b>Vertrauen Sie Ihrer Intuition:</b> Wenn etwas zu gut klingt, um wahr zu sein, ist es möglicherweise auch nicht wahr. Seien Sie skeptisch gegenüber unerwarteten Gewinnbenachrichtigungen oder Angeboten, die Druck ausüben, sofort zu handeln.</li>
+            <li><b>Mail Zertifikate:</b> Verwenden Sie Mail Zertifikate und achten Sie darauf, ob eine E-Mail die Sie lesen ein Zertifikat verwendet.</li>
+            <li><b>Vorsicht bei KI Phishing:</b>E-Mails, die durch KI generiert wurden, können in den ersten drei genannten Aspekten überzeugend wirken. Allerdings offenbaren sie sich durch das Fehlen einer korrekten Mail-Signatur. 
+                Daher wird die Überprüfung und Verwendung von Mail-Signaturen zunehmend wichtiger.</li>
+        </ul>
+        <h3>Was sollte ich tun, wenn ich auf Phishing hereingefallen bin?</h3>
+        <ul>
+            <li>Überprüfen Sie zunächst Ihren Computer auf Schadsoftware. Achten Sie dabei darauf, dass der von Ihnen verwendete Virenscanner aktuell ist!</li>
+            <li>Sollte der Virenscanner fündig gewesen sein, ändern Sie sofort alle wichtigen Passwörter. Vor allem für Ihren E-Mail-Account und Ihre Online-Konten 
+                bei Banken, Zahlungsdienstleistern oder Versandhändlern. Verwenden Sie dazu am Besten ein anderes Gerät.</li>
+                <li>Falls Sie infolge eines Phishing-Angriffs zu Schaden gekommen sind erstatten Sie Strafanzeige beim Betrugskommissariat Ihrer örtlichen Polizeidienststelle.</li>
+            </ul>
+        <h3>Schützen Sie sich vor Phishing</h3>
+        Die beste Verteidigung gegen Phishing ist Wachsamkeit. Bleiben Sie informiert über aktuelle Betrugsmethoden und seien Sie skeptisch gegenüber verdächtigen Nachrichten oder Links. Indem Sie sich bewusst sind und die richtigen Vorsichtsmaßnahmen treffen, können Sie sich vor den Gefahren des Phishings schützen.
+
+        <p>Bei weiteren Fragen oder Bedenken stehen wir Ihnen gerne zur Verfügung. Wenden Sie sich hierfür an <a href="mailto:krueger@fh-aachen.de">krueger@fh-aachen.de</a></p>
+        <p>Weitere Informationen über Phishing und wie Sie sich schützen können, finden Sie unter: <a href="https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Cyber-Sicherheitslage/Methoden-der-Cyber-Kriminalitaet/Spam-Phishing-Co/spam-phishing-co_node.html" target="_blank">BSI-Phishing</a>.</p>
+    </div>
 </body>
 </html>

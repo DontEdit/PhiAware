@@ -5,12 +5,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///link_clicks.db'
 db = SQLAlchemy(app)
 
-class Link(db.Model):
+class Click(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(200), nullable=False)
-    prof_clicks = db.Column(db.Integer, default=0)
-    wimi_clicks = db.Column(db.Integer, default=0)
-    stud_clicks = db.Column(db.Integer, default=0)
+    group = db.Column(db.String(10), nullable=False)
+    count = db.Column(db.Integer, default=0)
 
 # This function ensures that the application context is set up before creating tables
 with app.app_context():
@@ -18,29 +16,37 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    links = Link.query.all()
-    return render_template('index.html', links=links)
+    return render_template('index.html')
 
-@app.route('/click/<link_id>/<group>')
-def click(link_id, group):
-    link = Link.query.get(link_id)
-    if group == 'prof':
-        link.prof_clicks += 1
-    elif group == 'wimi':
-        link.wimi_clicks += 1
-    elif group == 'stud':
-        link.stud_clicks += 1
-    db.session.commit()
-    response = make_response(redirect(link.url))
-    response.set_cookie('clicked_' + link_id, 'true')
-    return response
+@app.route('/<group>/<path:url>')
+def click(group, url):
+    if group in ['prof', 'wimi', 'stud']:
+        # Check if the link has been clicked in this session for this group
+        if 'clicked_' + url + '_' + group not in request.cookies:
+            # Get the click record for the group
+            click_record = Click.query.filter_by(group=group).first()
+            if not click_record:
+                # If the record doesn't exist, create a new one
+                click_record = Click(group=group, count=0)
+                db.session.add(click_record)
+            click_record.count += 1
+            db.session.commit()
+            
+            response = make_response(redirect(url))
+            # Set a cookie to mark that this link has been clicked for this group
+            response.set_cookie('clicked_' + url + '_' + group, 'true')
+            return response
+        else:
+            print("You've already clicked this link for this group.")
+            return redirect(url_for('index'))
+    else:
+        print("Invalid group.")
+        return redirect(url_for('index'))
 
-@app.route('/create_link', methods=['POST'])
-def create_link():
-    url = request.form['url']
-    new_link = Link(url=url)
-    db.session.add(new_link)
-    db.session.commit()
+# Route for any other page
+@app.route('/<path:path>')
+def other_page(path):
+    # Redirect to the index page
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
